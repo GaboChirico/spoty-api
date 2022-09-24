@@ -1,5 +1,4 @@
-from spoty import time_format
-
+from utils import time_format
 
 class Meta:
 

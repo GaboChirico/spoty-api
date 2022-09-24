@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from spoty import get_album_data, get_playlist_data
+from spoty.spoty import get_album_data, get_playlist_data
 
 app = FastAPI()
 

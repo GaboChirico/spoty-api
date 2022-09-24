@@ -9,3 +9,6 @@ venv
 env
 build
 dist
+.ipynb_checkpoints
+*.ipynb
+datatest.ipynb

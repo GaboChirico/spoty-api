@@ -1,9 +1,10 @@
 import os
 import logging
-from models import Track, Meta, Features, Album, Playlist
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
 from spotipy.cache_handler import CacheFileHandler
+from spoty.models import Track, Meta, Features, Album, Playlist
+
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -23,23 +24,6 @@ sp = spotipy.Spotify(auth_manager=SpotifyClientCredentials(client_id=os.environ.
                                                            client_secret=os.environ.get(
                                                                'SPOTIPY_CLIENT_SECRET'),
                                                            cache_handler=cache_handler))
-
-
-def time_format(ms: float) -> str:
-    """ 
-    Time format miliseconds to MM:SS or HH:MM:SS
-
-    Args:
-        ms (float): miliseconds
-
-    Returns:
-        str: HH:MM:SS formated time.
-    """
-    if int(ms) >= 3600000:  # More than 1 hour
-        return "{:02}:{:02}:{:02}".format(int((ms / 1000.0) / 3600), int((ms / 1000.0 / 60) % 60),
-                                          int(ms / 1000.0 % 60))
-    else:
-        return "{:02}:{:02}".format(int((ms / 1000.0 / 60) % 60), int(ms / 1000.0 % 60))
 
 
 def album_get_data(album_id: str):
