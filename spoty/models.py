@@ -1,5 +1,6 @@
 from utils import time_format
 
+
 class Meta:
 
     def __init__(self, meta_data):
@@ -9,6 +10,39 @@ class Meta:
         self.release_date = meta_data['album']['release_date']
         self.duration_ms = time_format(meta_data['duration_ms'])
         self.popularity = meta_data['popularity']
+
+
+class AlbumMeta:
+
+    def __init__(self, meta_data):
+        self.name = meta_data['name']
+        self.artists = meta_data['artists'][0]['name']
+        self.release_date = meta_data['release_date']
+        self.total_tracks = meta_data['total_tracks']
+        self.popularity = meta_data['popularity']
+        self.genres = meta_data['genres']
+        self.total_duration = time_format(
+            sum([x['duration_ms'] for x in meta_data['tracks']['items']]))
+        self.label = meta_data['label']
+        self.total_markets = len(meta_data['available_markets'])
+        self.image = meta_data['images'][1]['url']
+
+
+class PlaylistMeta:
+
+    def __init__(self, meta_data):
+        self.name = meta_data['name']
+        self.followers = meta_data['followers']['total']
+        self.total_duration = time_format(
+            sum([x['track']['duration_ms'] for x in meta_data['tracks']['items']]))
+        self.average_popularity = sum(
+            [x['track']['popularity'] for x in meta_data['tracks']['items']]) / meta_data['tracks']['total']
+        self.owner = meta_data['owner']['display_name']
+        self.public = (lambda x: 'Yes' if x else 'No')(meta_data['public'])
+        self.collaborative = (lambda x: 'Yes' if x else 'No')(
+            meta_data['collaborative'])
+        self.description = meta_data['description']
+        self.image = meta_data['images'][0]['url']
 
 
 class Features:
@@ -32,50 +66,29 @@ class Track:
 
     def __init__(self, id: str, meta: Meta, features: Features):
         self.id = id
-        self.meta = meta
-        self.features = features
-
-    def __str__(self) -> str:
-        return f"{self.meta.name}"
+        for k, v in meta.__dict__.items():
+            setattr(self, k, v)
+        for k, v in features.__dict__.items():
+            setattr(self, k, v)
 
 
 class Album:
 
     def __init__(self, id: str, tracks: list[Track], album_data):
         self.id = id
-        self.name = album_data['name']
-        self.artist = album_data['artists'][0]['name']
         self.tracks = tracks
-        self.total_tracks = album_data['total_tracks']
-        self.total_duration = time_format(
-            sum([x['duration_ms'] for x in album_data['tracks']['items']]))
-        self.release_date = album_data['release_date']
-        self.popularity = album_data['popularity']
-        self.label = album_data['label']
-        self.total_markets = len(album_data['available_markets'])
-        self.image = album_data['images'][1]['url']
+        self.meta = AlbumMeta(album_data)
 
     def __str__(self) -> str:
-        return f"Album: {self.name} by {self.artist}"
+        return f"Album: {self.meta.name} by {self.meta.artists}"
 
 
 class Playlist:
 
     def __init__(self, id: str, tracks: list[Track], playlist_data):
         self.id = id
-        self.name = playlist_data['name']
         self.tracks = tracks
-        self.followers = playlist_data['followers']['total']
-        self.total_duration = time_format(
-            sum([x['track']['duration_ms'] for x in playlist_data['tracks']['items']]))
-        self.average_popularity = sum(
-            [x['track']['popularity'] for x in playlist_data['tracks']['items']]) / playlist_data['tracks']['total']
-        self.owner = playlist_data['owner']['display_name']
-        self.public = (lambda x: 'Yes' if x else 'No')(playlist_data['public'])
-        self.collaborative = (lambda x: 'Yes' if x else 'No')(
-            playlist_data['collaborative'])
-        self.description = playlist_data['description']
-        self.image = playlist_data['images'][0]['url']
+        self.meta = PlaylistMeta(playlist_data)
 
     def __str__(self) -> str:
-        return f"Playlist: {self.name} by {self.owner}"
+        return f"Playlist: {self.meta.name} by {self.meta.owner}"
