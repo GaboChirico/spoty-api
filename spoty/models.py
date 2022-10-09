@@ -1,6 +1,12 @@
+from dataclasses import dataclass
 from utils import time_format
 
-
+@dataclass
+class Query:
+    query: str
+    type: str
+    limit: int = 50
+    
 class Meta:
 
     def __init__(self, meta_data):
