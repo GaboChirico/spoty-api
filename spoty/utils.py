@@ -59,12 +59,11 @@ def create_dataframe(
         features (bool, optional): Enable feature data. Defaults to True.
         index (bool, optional): Enable index. Defaults to True.
         ids (bool, optional): Enable ids. Defaults to True.
-
-    Returns:
-        pd.DataFrame: Pandas DataFrame.
     """
 
     df = pd.DataFrame([item.__dict__ for item in data.tracks])
+    # Name dataframes
+    df.Name = data.meta.name.replace(' ', '_')
 
     if not meta:
         df.drop(columns=META, inplace=True)
@@ -80,7 +79,7 @@ def create_dataframe(
 
 def create_csv(df):
     try:
-        df.to_csv(df.name, sep=',', encoding='utf-8')
+        df.to_csv(f'{df.Name}.csv', sep=',', encoding='utf-8')
     except Exception as e:
         print(e)
 
