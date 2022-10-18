@@ -8,48 +8,66 @@ from spotipy.oauth2 import SpotifyClientCredentials
 from spotipy.cache_handler import CacheFileHandler
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-META = ['name', 'artists', 'album',
-        'duration_ms', 'release_date', 'popularity']
+OUTPUT_DIR = BASE_DIR / "data"
+
+META = ["name", "artists", "album", "duration_ms", "release_date", "popularity"]
 FEATURES = [
-    'danceability', 'acousticness', 'energy', 'instrumentalness', 'liveness',
-    'loudness', 'speechiness', 'key', 'mode', 'valence', 'tempo', 'time_signature'
+    "danceability",
+    "acousticness",
+    "energy",
+    "instrumentalness",
+    "liveness",
+    "loudness",
+    "speechiness",
+    "key",
+    "mode",
+    "valence",
+    "tempo",
+    "time_signature",
 ]
 
-logging.basicConfig(filename='tmp/spotipy.log',
-                    encoding='utf-8', level=logging.INFO)
-logging.basicConfig(format='%(asctime)s %(message)s')
+logging.basicConfig(filename= OUTPUT_DIR / "spotipy.log", encoding="utf-8", level=logging.INFO)
+logging.basicConfig(format="%(asctime)s %(message)s")
 LOGGER = logging.getLogger(__name__)
 
 
 def cache_handler():
-    return CacheFileHandler(
-        cache_path=BASE_DIR / 'tmp' / 'cache',
-        username='Gabo'
-    )
+    return CacheFileHandler(cache_path=OUTPUT_DIR / "cache", username="Gabo")
 
 
 def get_auth_token():
     return cache_handler.get_cached_token()
 
 
+def check_env():
+    if not os.environ.get("SPOTIPY_CLIENT_ID") and os.environ.get(
+        "SPOTIPY_CLIENT_SECRET"
+    ):
+        print("No credentials found. Please enter your credentials")
+        os.environ["SPOTIPY_CLIENT_ID"] = input("Enter your client id: ")
+        os.environ["SPOTIPY_CLIENT_SECRET"] = input("Enter your client secret: ")
+
+
 def spotify_credentials():
-    return SpotifyClientCredentials(client_id=os.environ.get('SPOTIPY_CLIENT_ID'),
-                                    client_secret=os.environ.get(
-                                        'SPOTIPY_CLIENT_SECRET'),
-                                    cache_handler=cache_handler())
+    return SpotifyClientCredentials(
+        client_id=os.environ.get("SPOTIPY_CLIENT_ID"),
+        client_secret=os.environ.get("SPOTIPY_CLIENT_SECRET"),
+        cache_handler=cache_handler(),
+    )
 
 
 def load_json(file_name):
-    with open(file_name, 'r') as f:
+    with open(file_name, "r") as f:
         return json.load(f)
 
 
 def create_dataframe(
-        data: object,
-        meta: bool = True,
-        features: bool = True,
-        index: bool = True,
-        ids: bool = True) -> pd.DataFrame:
+    data: object,
+    meta: bool = True,
+    features: bool = True,
+    index: bool = True,
+    ids: bool = True,
+) -> pd.DataFrame:
     """
     Create pandas DataFrame from Album or Playlist object.
 
@@ -63,14 +81,14 @@ def create_dataframe(
 
     df = pd.DataFrame([item.__dict__ for item in data.tracks])
     # Name dataframes
-    df.Name = data.meta.name.replace(' ', '_')
+    df.Name = data.meta.name.replace(" ", "_")
 
     if not meta:
         df.drop(columns=META, inplace=True)
     if not features:
         df.drop(columns=FEATURES, inplace=True)
     if not ids:
-        df.drop(columns='id', inplace=True)
+        df.drop(columns="id", inplace=True)
     if not index:
         df.reset_index(drop=True, inplace=True)
 
@@ -79,17 +97,17 @@ def create_dataframe(
 
 def create_csv(df):
     try:
-        df.to_csv(f'{df.Name}.csv', sep=',', encoding='utf-8')
+        df.to_csv(OUTPUT_DIR / f"{df.Name}.csv", sep=",", encoding="utf-8")
     except Exception as e:
         print(e)
 
 
 def load_csv(file_name):
-    return pd.read_csv(file_name, sep=',', encoding='utf-8')
+    return pd.read_csv(file_name, sep=",", encoding="utf-8")
 
 
 def time_format(ms: float) -> str:
-    """ 
+    """
     Time format miliseconds to MM:SS or HH:MM:SS
 
     Args:
@@ -99,8 +117,11 @@ def time_format(ms: float) -> str:
         str: HH:MM:SS formated time.
     """
     if int(ms) >= 3600000:  # More than 1 hour
-        return "{:02}:{:02}:{:02}".format(int((ms / 1000.0) / 3600), int((ms / 1000.0 / 60) % 60),
-                                          int(ms / 1000.0 % 60))
+        return "{:02}:{:02}:{:02}".format(
+            int((ms / 1000.0) / 3600),
+            int((ms / 1000.0 / 60) % 60),
+            int(ms / 1000.0 % 60),
+        )
     else:
         return "{:02}:{:02}".format(int((ms / 1000.0 / 60) % 60), int(ms / 1000.0 % 60))
 
@@ -112,4 +133,5 @@ def track_time(func):
         t2 = time.time()
         print(f"Time elapsed: {t2-t1} seconds")
         return res
+
     return wrapper

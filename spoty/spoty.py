@@ -68,9 +68,3 @@ class Spoty:
 
     def __repr__(self) -> str:
         return f'{self.query.type}'
-
-
-if __name__ == '__main__':
-    spoty = Spoty(Query('0ZgTSm1VI55AhE09Nzvv11', 'album'))
-    album = spoty()
-    print(album)
