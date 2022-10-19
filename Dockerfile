@@ -36,7 +36,7 @@ COPY . .
 
 FROM virtualenv AS dev
 
-ARG USERNAME=omni
+ARG USERNAME=spoty
 ARG USER_UID=1000
 ARG USER_GID=$USER_UID
 
