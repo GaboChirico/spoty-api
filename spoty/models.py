@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from utils import time_format
+from .utils import time_format, pitch_class_notation
 
 @dataclass
 class Query:
@@ -26,12 +26,16 @@ class AlbumMeta:
         self.release_date = meta_data['release_date']
         self.total_tracks = meta_data['total_tracks']
         self.popularity = meta_data['popularity']
-        self.genres = meta_data['genres']
         self.total_duration = time_format(
             sum([x['duration_ms'] for x in meta_data['tracks']['items']]))
         self.label = meta_data['label']
         self.total_markets = len(meta_data['available_markets'])
         self.image = meta_data['images'][1]['url']
+        
+    def __str__(self):
+        for key, value in self.__dict__.items():
+            print(f'{key}: {value}')
+        return ''
 
 
 class PlaylistMeta:
@@ -61,8 +65,11 @@ class Features:
         self.liveness = feature_data[0]['liveness']
         self.loudness = feature_data[0]['loudness']
         self.speechiness = feature_data[0]['speechiness']
-        self.key = feature_data[0]['key']
-        self.mode = feature_data[0]['mode']
+        self.key = (lambda x: pitch_class_notation[str(x)])(feature_data[0]['key'])
+        self.mode = (lambda x: 'Major' if x=="1" else 'Minor')(feature_data[0]['mode'])
+        self.valence = feature_data[0]['valence']
+        self.tempo = feature_data[0]['tempo']
+        self.time_signature = feature_data[0]['time_signature']
         self.valence = feature_data[0]['valence']
         self.tempo = feature_data[0]['tempo']
         self.time_signature = feature_data[0]['time_signature']
