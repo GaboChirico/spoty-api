@@ -3,6 +3,7 @@ import os
 import time
 import logging
 from pathlib import Path
+
 import pandas as pd
 from spotipy.oauth2 import SpotifyClientCredentials
 from spotipy.cache_handler import CacheFileHandler
@@ -26,7 +27,25 @@ FEATURES = [
     "time_signature",
 ]
 
-logging.basicConfig(filename= OUTPUT_DIR / "spotipy.log", encoding="utf-8", level=logging.INFO)
+pitch_class_notation = {
+    "0": "C",
+    "1": "C#",
+    "2": "D",
+    "3": "D#",
+    "4": "E",
+    "5": "F",
+    "6": "F#",
+    "7": "G",
+    "8": "G#",
+    "9": "A",
+    "10": "A#",
+    "11": "B",
+}
+
+
+logging.basicConfig(
+    filename=OUTPUT_DIR / "spotipy.log", encoding="utf-8", level=logging.INFO
+)
 logging.basicConfig(format="%(asctime)s %(message)s")
 LOGGER = logging.getLogger(__name__)
 
