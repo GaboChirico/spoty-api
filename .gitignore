@@ -111,5 +111,7 @@ ENV/
 .idea/vcs.xml
 .idea/jsLibraryMappings.xml
 
-#Azure SYNC parameters
-/azsync.yml
+# Project-specific stuff:
+.idea/*
+!.idea/codeStyles
+data/**
