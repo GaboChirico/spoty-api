@@ -1,6 +1,6 @@
 import spotipy
-from models import Query, Track, Meta, Features, Album, Playlist
-from utils import LOGGER, spotify_credentials, track_time
+from .models import Query, Track, Meta, Features, Album, Playlist
+from .utils import LOGGER, spotify_credentials, track_time
 
 
 class Spoty:
