@@ -1,6 +1,7 @@
-from .spoty import Spoty
-from .models import Query
-from .utils import LOGGER, check_env
+from .spoty import *
+from .models import *
+from .utils import *
+from .entrypoint import *
 
 
 def setup():
@@ -8,7 +9,7 @@ def setup():
     LOGGER.info("Setup complete")
 
 
-def main(query: str, type: str, limit: int = 50):
+def spoty(query: str, type: str, limit: int = 50):
     LOGGER.info("Starting Spoty")
     setup()
     LOGGER.info("Creating query")
@@ -16,5 +17,4 @@ def main(query: str, type: str, limit: int = 50):
     LOGGER.info("Creating Spoty object")
     spoty = Spoty(query)
     LOGGER.info("Calling Spoty object")
-    print(spoty())
     return spoty()
