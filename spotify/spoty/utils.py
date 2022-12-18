@@ -8,7 +8,7 @@ import pandas as pd
 from spotipy.oauth2 import SpotifyClientCredentials
 from spotipy.cache_handler import CacheFileHandler
 
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 OUTPUT_DIR = BASE_DIR / "data"
 
 META = ["name", "artists", "album", "duration_ms", "release_date", "popularity"]

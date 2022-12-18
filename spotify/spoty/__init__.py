@@ -1,7 +1,6 @@
-from .spoty import *
+from .core import *
 from .models import *
 from .utils import *
-from .entrypoint import *
 
 
 def setup():
@@ -9,7 +8,7 @@ def setup():
     LOGGER.info("Setup complete")
 
 
-def spoty(query: str, type: str, limit: int = 50):
+def run(query: str, type: str, limit: int = 50):
     LOGGER.info("Starting Spoty")
     setup()
     LOGGER.info("Creating query")
