@@ -114,9 +114,11 @@ def create_dataframe(
     return df
 
 
-def create_csv(df):
+def create_csv(df, output_dir=OUTPUT_DIR):
+    if not Path(output_dir).exists():
+        Path(output_dir).mkdir(parents=True, exist_ok=True)
     try:
-        df.to_csv(OUTPUT_DIR / f"{df.Name}.csv", sep=",", encoding="utf-8")
+        df.to_csv(Path(output_dir) / f"{df.Name}.csv", sep=",", encoding="utf-8")
     except Exception as e:
         print(e)
 

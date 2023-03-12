@@ -96,7 +96,17 @@ class Album:
         self.meta = AlbumMeta(album_data)
 
     def __str__(self) -> str:
-        return f"Album: {self.meta.name} by {self.meta.artists}"
+        return f"""
+    [Album] {self.meta.name}
+    [Artists] {self.meta.artists}
+    [Release Date] {self.meta.release_date} 
+    [Total Tracks] {self.meta.total_tracks} 
+    [Popularity] {self.meta.popularity}
+    [Total Duration] {self.meta.total_duration} 
+    [Label] {self.meta.label} 
+    [Total Markets] {self.meta.total_markets}
+    [Image] {self.meta.image}]
+"""
 
 
 class Playlist:
@@ -106,4 +116,14 @@ class Playlist:
         self.meta = PlaylistMeta(playlist_data)
 
     def __str__(self) -> str:
-        return f"Playlist: {self.meta.name} by {self.meta.owner}"
+        return f"""
+    [Playlist] {self.meta.name}
+    [Followers] {self.meta.followers}
+    [Total Duration] {self.meta.total_duration}
+    [Average Popularity] {self.meta.average_popularity}
+    [Owner] {self.meta.owner}
+    [Public] {self.meta.public}
+    [Collaborative] {self.meta.collaborative}
+    [Description] {self.meta.description}
+    [Image] {self.meta.image}
+"""
