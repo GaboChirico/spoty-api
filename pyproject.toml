@@ -1,0 +1,23 @@
+[project]
+name = "spoty-api"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "Gabriel Chirico", email = "97834322+GaboChirico@users.noreply.github.com"},
+]
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.10"
+dependencies = [
+    "spotipy==2.20.0",
+    "pandas==1.5.0",
+]
+
+[tool.pdm.dev-dependencies]
+formatting = ["black==21.9b0", "isort==5.9.3"]
+test = ["pytest==6.2.5"]
+data = ["ipykernel==6.4.1"]
+
+[build-system]
+requires = ["pdm-backend"]
+build-backend = "pdm.backend"

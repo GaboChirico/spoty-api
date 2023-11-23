@@ -1,6 +1,7 @@
 import spotipy
-from .models import Query, Track, Meta, Features, Album, Playlist
-from .utils import LOGGER, spotify_credentials, track_time
+
+from spoty.api.models import Query, Track, Meta, Features, Album, Playlist
+from spoty.api.utils import LOGGER, spotify_credentials, track_time
 
 
 class Spoty:
@@ -11,14 +12,15 @@ class Spoty:
     @track_time
     def __call__(self):
         self._valid_query()
-        if self.query.type == "track":
-            return self.get_track(self.query.query)
-        elif self.query.type == "album":
-            return self.get_album(self.query.query)
-        elif self.query.type == "playlist":
-            return self.get_playlist(self.query.query)
-        else:
-            raise ValueError("Invalid type")
+        match self.query.type:
+            case "track":
+                return self.get_track(self.query.query)
+            case "album":
+                return self.get_album(self.query.query)
+            case "playlist":
+                return self.get_playlist(self.query.query)
+            case _:
+                raise ValueError("Invalid type")
 
     def _valid_query(self):
         try:
@@ -81,4 +83,4 @@ class Spoty:
         return f"{self.query.type}"
 
     def __repr__(self) -> str:
-        return f"{self.query.type}"
+        return f"Soptify({self.query.query}, {self.query.type}, {self.query.limit})"

@@ -8,7 +8,7 @@ import pandas as pd
 from spotipy.oauth2 import SpotifyClientCredentials
 from spotipy.cache_handler import CacheFileHandler
 
-BASE_DIR = Path(__file__).resolve().parent.parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent.parent.parent
 OUTPUT_DIR = BASE_DIR / "data"
 
 META = ["name", "artists", "album", "duration_ms", "release_date", "popularity"]
@@ -123,8 +123,8 @@ def create_csv(df, output_dir=OUTPUT_DIR):
         print(e)
 
 
-def load_csv(file_name):
-    return pd.read_csv(file_name, sep=",", encoding="utf-8")
+def load_csv(file_path: str, sep: str = ",", encoding: str = "utf-8"):
+    return pd.read_csv(file_path, sep=sep, encoding=encoding)
 
 
 def time_format(ms: float) -> str:

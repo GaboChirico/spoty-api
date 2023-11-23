@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from .utils import time_format, pitch_class_notation
+from spoty.api.utils import time_format, pitch_class_notation
 
 
 @dataclass
@@ -69,7 +69,7 @@ class Features:
         self.loudness = feature_data[0]["loudness"]
         self.speechiness = feature_data[0]["speechiness"]
         self.key = (lambda x: pitch_class_notation[str(x)])(feature_data[0]["key"])
-        self.mode = (lambda x: "Major" if x == "1" else "Minor")(
+        self.mode = (lambda x: "major" if x == "1" else "minor")(
             feature_data[0]["mode"]
         )
         self.valence = feature_data[0]["valence"]

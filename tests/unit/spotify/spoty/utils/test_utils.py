@@ -1,5 +1,5 @@
 import unittest
-from spotify.spoty.utils import time_format
+from src.spoty.api.utils import time_format
 
 
 class TestUtils(unittest.TestCase):
