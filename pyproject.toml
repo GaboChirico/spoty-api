@@ -3,7 +3,7 @@ name = "spoty"
 version = "0.2.0"
 description = ""
 authors = [
-    {name = "Gabriel Chirico", email = "97834322+GaboChirico@users.noreply.github.com"},
+    {name = "Gabriel Chirico", email = "Gacn40@gmail.com"},
 ]
 readme = "README.md"
 requires-python = ">=3.10"
