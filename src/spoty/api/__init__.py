@@ -1,19 +1,25 @@
-from .core import *
-from .models import *
-from .utils import *
+__version__ = "0.2.0"
 
+from spoty.api import Spoty
+from spoty.api.models.album import Album, AlbumMeta
+from spoty.api.models.playlist import Playlist, PlaylistMeta
+from spoty.api.models.track import Track, AudioFeatures, TrackMeta
+from spoty.api.models.query import Query
+from spoty.api.utils import spotify_credentials, track_time, time_format
 
-def setup():
-    check_env()
-    LOGGER.info("Setup complete")
+__all__ = [
+    "Spoty",
+    "Album",
+    "AlbumMeta",
+    "Playlist",
+    "PlaylistMeta",
+    "Track",
+    "AudioFeatures",
+    "TrackMeta",
+    "Query",
+    "spotify_credentials",
+    "track_time",
+    "time_format",
+]
 
-
-def run(query: str, type: str, limit: int = 50):
-    LOGGER.info("Starting Spoty")
-    setup()
-    LOGGER.info("Creating query")
-    query = Query(query, type, limit)
-    LOGGER.info("Creating Spoty object")
-    spoty = Spoty(query)
-    LOGGER.info("Calling Spoty object")
-    return spoty()
+__author__ = "Gabriel Chirico"

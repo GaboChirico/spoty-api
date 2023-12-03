@@ -1,6 +1,6 @@
 from argparse import ArgumentParser
 
-from spoty.api.main import main
+from spoty.api.__main__ import main
 
 
 def _parse_args():
