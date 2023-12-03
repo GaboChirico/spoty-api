@@ -1,9 +1,9 @@
 import unittest
+
 from src.spoty.api.utils import time_format
 
 
 class TestUtils(unittest.TestCase):
-    
     def test_time_format(self):
         self.assertEqual(time_format(1000), "00:01")
         self.assertIn(":", time_format(1000))

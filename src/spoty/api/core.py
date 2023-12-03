@@ -1,13 +1,29 @@
 import spotipy
 
-from spoty.api.models import Query, Track, Meta, Features, Album, Playlist
+from spoty.api.models.album import Album
+from spoty.api.models.playlist import Playlist
+from spoty.api.models.query import Query
+from spoty.api.models.track import AudioFeatures, Track, TrackMeta
 from spoty.api.utils import LOGGER, spotify_credentials, track_time
 
 
 class Spoty:
-    def __init__(self, query: Query):
+    def __init__(
+        self,
+        query: str,
+        type: str,
+        limit: int = 50,
+        features: bool = False,
+        time_format: bool = False,
+    ):
         self.client = spotipy.Spotify(auth_manager=spotify_credentials())
-        self.query = query
+        self.query = Query(
+            query=query,
+            type=type,
+            limit=limit,
+            features=features,
+            time_format=time_format,
+        )
 
     @track_time
     def __call__(self):
@@ -73,14 +89,16 @@ class Spoty:
         """
         Get track meta and features.
         """
-        return Track(
-            id=id,
-            meta=Meta(self.client.track(id)),
-            features=Features(self.client.audio_features(id)),
-        )
+        if self.query.features:
+            return Track(
+                id=id,
+                meta=TrackMeta(self.client.track(id)),
+                features=AudioFeatures(self.client.audio_features(id)),
+            )
+        return Track(id=id, meta=TrackMeta(self.client.track(id)), features=None)
 
     def __str__(self) -> str:
-        return f"{self.query.type}"
+        return f"{self.query.query: self.query.type}"
 
     def __repr__(self) -> str:
         return f"Soptify({self.query.query}, {self.query.type}, {self.query.limit})"

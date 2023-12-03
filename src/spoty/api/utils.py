@@ -1,12 +1,12 @@
 import json
+import logging
 import os
 import time
-import logging
 from pathlib import Path
 
 import pandas as pd
-from spotipy.oauth2 import SpotifyClientCredentials
 from spotipy.cache_handler import CacheFileHandler
+from spotipy.oauth2 import SpotifyClientCredentials
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent.parent
 OUTPUT_DIR = BASE_DIR / "data"
@@ -62,9 +62,9 @@ def check_env():
     if not os.environ.get("SPOTIPY_CLIENT_ID") and os.environ.get(
         "SPOTIPY_CLIENT_SECRET"
     ):
-        print("No credentials found. Please enter your credentials")
-        os.environ["SPOTIPY_CLIENT_ID"] = input("Enter your client id: ")
-        os.environ["SPOTIPY_CLIENT_SECRET"] = input("Enter your client secret: ")
+        LOGGER.error(
+            "Missing Credentials: Please set SPOTIPY_CLIENT_ID or SPOTIPY_CLIENT_SECRET"
+        )
 
 
 def spotify_credentials():

@@ -1,19 +1,24 @@
 from spoty.api.core import Spoty
-from spoty.api.models import Query
-from spoty.api.utils import check_env, create_csv, create_dataframe, LOGGER
+from spoty.api.utils import LOGGER, check_env
 
 
 def setup():
     check_env()
-    LOGGER.info("Setup complete")
+    LOGGER.debug("Setup complete")
 
 
-def main(query: str, type: str, limit: int = 50):
+def main(
+    query: str,
+    type: str,
+    limit: int = 50,
+    features: bool = False,
+    time_format: bool = False,
+):
     LOGGER.info("Starting Spoty")
     setup()
-    LOGGER.info("Creating query")
-    query = Query(query, type, limit)
-    LOGGER.info("Creating Spoty object")
-    spoty = Spoty(query)
-    LOGGER.info("Calling Spoty object")
+    LOGGER.debug("Creating Spoty object")
+    spoty = Spoty(
+        query=query, type=type, limit=limit, features=features, time_format=time_format
+    )
+    LOGGER.info("Processing search...")
     return spoty()
