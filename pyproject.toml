@@ -1,6 +1,8 @@
 [project]
 name = "spoty"
-version = "0.2.0"
+dynamic = [
+  'version'
+]
 description = ""
 authors = [
     {name = "Gabriel Chirico", email = "Gacn40@gmail.com"},
@@ -12,6 +14,12 @@ dependencies = [
     "spotipy==2.20.0",
     "pandas==1.5.0",
 ]
+
+[project.urls]
+repository = 'https://github.com/GaboChirico/spoty-api'
+
+[tool.setuptools]
+include-package-data = true
 
 [tool.pdm.dev-dependencies]
 formatting = ["black==21.9b0", "isort==5.9.3"]
