@@ -8,8 +8,16 @@ import pandas as pd
 from spotipy.cache_handler import CacheFileHandler
 from spotipy.oauth2 import SpotifyClientCredentials
 
+from spoty.api.log import setup_logger
+
+setup_logger("spotipy", "spotipy.log")
+LOGGER = logging.getLogger("spotipy")
+
 BASE_DIR = Path(__file__).resolve().parent.parent.parent.parent
 OUTPUT_DIR = BASE_DIR / "data"
+if not Path(OUTPUT_DIR).exists():
+    Path(OUTPUT_DIR).mkdir(parents=True, exist_ok=True)
+
 
 META = ["name", "artists", "album", "duration_ms", "release_date", "popularity"]
 FEATURES = [

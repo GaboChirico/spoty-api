@@ -8,8 +8,12 @@ def _parse_args():
     parser.add_argument("-q", "--query", type=str, help="Query to search")
     parser.add_argument("-t", "--type", type=str, help="Type of search")
     parser.add_argument("-l", "--limit", type=int, help="Limit of results", default=50)
-    parser.add_argument("-f", "--features", type=bool, help="Get features", default=False)
-    parser.add_argument("-tf", "--time_format", type=bool, help="Format time", default=False)
+    parser.add_argument(
+        "-f", "--features", type=bool, help="Get features", default=False
+    )
+    parser.add_argument(
+        "-tf", "--time_format", type=bool, help="Format time", default=False
+    )
     return parser.parse_args()
 
 

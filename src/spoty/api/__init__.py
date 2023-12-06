@@ -3,9 +3,9 @@ __version__ = "0.2.0"
 from spoty.api.core import Spoty
 from spoty.api.models.album import Album, AlbumMeta
 from spoty.api.models.playlist import Playlist, PlaylistMeta
-from spoty.api.models.track import Track, AudioFeatures, TrackMeta
 from spoty.api.models.query import Query
-from spoty.api.utils import spotify_credentials, track_time, time_format
+from spoty.api.models.track import AudioFeatures, Track, TrackMeta
+from spoty.api.utils import spotify_credentials, time_format, track_time
 
 __all__ = [
     "Spoty",

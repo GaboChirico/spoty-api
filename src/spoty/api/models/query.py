@@ -8,7 +8,7 @@ class Query:
     limit: int = 50
     features: bool = False
     time_format: bool = False
-    
+
     def __post_init__(self):
         if self.type not in ["track", "artist", "album", "playlist"]:
             raise ValueError("Invalid type of search")
