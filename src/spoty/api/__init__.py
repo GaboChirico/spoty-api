@@ -1,6 +1,6 @@
 __version__ = "0.2.0"
 
-from spoty.api import Spoty
+from spoty.api.core import Spoty
 from spoty.api.models.album import Album, AlbumMeta
 from spoty.api.models.playlist import Playlist, PlaylistMeta
 from spoty.api.models.track import Track, AudioFeatures, TrackMeta
