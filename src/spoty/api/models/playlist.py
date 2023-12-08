@@ -31,6 +31,13 @@ class Playlist:
         self.id = id
         self.tracks = tracks
         self.meta = PlaylistMeta(playlist_data)
+        
+    def serialize(self):
+        return {
+            "id": self.id,
+            "tracks": [x.serialize() for x in self.tracks],
+            "meta": self.meta.__dict__,
+        }
 
     def __str__(self) -> str:
         return f"""

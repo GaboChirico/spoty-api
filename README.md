@@ -1,1 +1,1 @@
-# spoty-api
+# SpotyAPI

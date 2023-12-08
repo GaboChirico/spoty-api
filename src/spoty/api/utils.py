@@ -10,7 +10,7 @@ from spotipy.oauth2 import SpotifyClientCredentials
 
 from spoty.api.log import setup_logger
 
-setup_logger("spotipy", "spotipy.log")
+setup_logger("spotipy")
 LOGGER = logging.getLogger("spotipy")
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent.parent
@@ -49,13 +49,6 @@ pitch_class_notation = {
     "10": "A#",
     "11": "B",
 }
-
-
-logging.basicConfig(
-    filename=OUTPUT_DIR / "spotipy.log", encoding="utf-8", level=logging.INFO
-)
-logging.basicConfig(format="%(asctime)s %(message)s")
-LOGGER = logging.getLogger(__name__)
 
 
 def cache_handler():

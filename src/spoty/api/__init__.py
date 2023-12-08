@@ -13,13 +13,12 @@ __all__ = [
     "AlbumMeta",
     "Playlist",
     "PlaylistMeta",
-    "Track",
-    "AudioFeatures",
-    "TrackMeta",
     "Query",
+    "AudioFeatures",
+    "Track",
+    "TrackMeta",
     "spotify_credentials",
-    "track_time",
     "time_format",
+    "track_time",
 ]
 
-__author__ = "Gabriel Chirico"

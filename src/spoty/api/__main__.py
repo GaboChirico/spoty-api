@@ -7,7 +7,7 @@ def setup():
     LOGGER.debug("Setup complete")
 
 
-def main(
+def run(
     query: str,
     type: str,
     limit: int = 50,
@@ -21,4 +21,6 @@ def main(
         query=query, type=type, limit=limit, features=features, time_format=time_format
     )
     LOGGER.info("Processing search...")
-    return spoty()
+    result = spoty()
+    LOGGER.info("Search complete")
+    return result.serialize()

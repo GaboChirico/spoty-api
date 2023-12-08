@@ -35,11 +35,25 @@ class AudioFeatures:
 class Track:
     def __init__(self, id: str, meta: TrackMeta, features: AudioFeatures):
         self.id = id
+        self.meta = meta
+        self.features = features
         for k, v in meta.__dict__.items():
             setattr(self, k, v)
         if features:
             for k, v in features.__dict__.items():
                 setattr(self, k, v)
+                
+    def serialize(self):
+        if self.features:
+            return {
+                "id": self.id,
+                "meta": self.meta.__dict__,
+                "features": self.features.__dict__,
+            }
+        return {
+            "id": self.id,
+            "meta": self.meta.__dict__,
+        }
 
     def __str__(self) -> str:
         return f"""

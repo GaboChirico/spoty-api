@@ -1,3 +1,4 @@
+from collections.abc import Iterable
 from typing import List
 
 from spoty.api.models.track import Track
@@ -29,6 +30,13 @@ class Album:
         self.id = id
         self.tracks = tracks
         self.meta = AlbumMeta(album_data)
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "tracks": [x.serialize() for x in self.tracks],
+            "meta": self.meta.__dict__,
+        }
 
     def __str__(self) -> str:
         return f"""
