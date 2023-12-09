@@ -17,3 +17,7 @@ pdm install
 ```bash
 spoty --query <id> --type <type> --limit <limit> --features <features>
 ```
+
+[TODO: Add more documentation]
+[TODO: Add more features]
+IMPORTTANT: Store recently searched items in a database to avoid making too many requests to the Spotify API.

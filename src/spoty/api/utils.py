@@ -84,7 +84,7 @@ def track_time(func):
         t1 = time.time()
         res = func(*args, **kwargs)
         t2 = time.time()
-        logger.info(f"Time elapsed: {t2-t1} seconds")
+        logger.info("Done. Took %s seconds." % (t2 - t1))
         return res
 
     return wrapper
