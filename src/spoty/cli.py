@@ -1,13 +1,16 @@
+import logging
 from argparse import ArgumentParser
 
-from spoty.api.__main__ import run
+from spoty.api.__main__ import search
+from spoty.api.log import setup_logger
 
 
 def _parse_args():
+    """
+    Parse arguments from the command line.
+    """
     parser = ArgumentParser()
-    parser.add_argument(
-        "-q", "--query", type=str, help="Query to search", required=True
-    )
+    parser.add_argument("-q", "--query", type=str, help="Id to search", required=True)
     parser.add_argument(
         "-t",
         "--type",
@@ -23,11 +26,22 @@ def _parse_args():
     return parser.parse_args()
 
 
-def call_main():
+def main() -> None:
+    """
+    Execute the CLI.
+    """
+    logger = setup_logger(__name__)
+
     args = _parse_args()
-    return run(
+    result = search(
         query=args.query,
         type=args.type,
         limit=args.limit,
         features=args.features,
     )
+    # logger.debug(result)
+    # logger.info(result.serialize())
+
+
+if __name__ == "__main__":
+    main()
