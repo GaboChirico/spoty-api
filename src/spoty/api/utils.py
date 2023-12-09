@@ -1,21 +1,12 @@
-import json
-import logging
 import os
 import time
-from pathlib import Path
 
-import pandas as pd
-from spotipy.cache_handler import CacheFileHandler
+from spotipy.cache_handler import CacheFileHandler, MemoryCacheHandler
 from spotipy.oauth2 import SpotifyClientCredentials
 
 from spoty.api.log import get_logger
 
 LOGGER = get_logger(__name__)
-
-BASE_DIR = Path(__file__).resolve().parent.parent
-OUTPUT_DIR = BASE_DIR / "data"
-if not Path(OUTPUT_DIR).exists():
-    Path(OUTPUT_DIR).mkdir(parents=True, exist_ok=True)
 
 
 META = ["name", "artists", "album", "duration_ms", "release_date", "popularity"]
@@ -51,7 +42,7 @@ pitch_class_notation = {
 
 
 def cache_handler():
-    return CacheFileHandler(cache_path=OUTPUT_DIR / "cache", username="Gabo")
+    return CacheFileHandler(cache_path=".cache") if os.path.exists(".cache") else MemoryCacheHandler()
 
 
 def get_auth_token():
@@ -73,58 +64,6 @@ def spotify_credentials():
         client_secret=os.environ.get("SPOTIPY_CLIENT_SECRET"),
         cache_handler=cache_handler(),
     )
-
-
-def load_json(file_name):
-    with open(file_name, "r") as f:
-        return json.load(f)
-
-
-def create_dataframe(
-    data: object,
-    meta: bool = True,
-    features: bool = True,
-    index: bool = True,
-    ids: bool = True,
-) -> pd.DataFrame:
-    """
-    Create pandas DataFrame from Album or Playlist object.
-
-    Args:
-        data (Album | Playlist): Album or Playlist object.
-        meta (bool, optional): Enable meta data. Defaults to True.
-        features (bool, optional): Enable feature data. Defaults to True.
-        index (bool, optional): Enable index. Defaults to True.
-        ids (bool, optional): Enable ids. Defaults to True.
-    """
-
-    df = pd.DataFrame([item.__dict__ for item in data.tracks])
-    # Name dataframes
-    df.Name = data.meta.name.replace(" ", "_")
-
-    if not meta:
-        df.drop(columns=META, inplace=True)
-    if not features:
-        df.drop(columns=FEATURES, inplace=True)
-    if not ids:
-        df.drop(columns="id", inplace=True)
-    if not index:
-        df.reset_index(drop=True, inplace=True)
-
-    return df
-
-
-def create_csv(df, output_dir=OUTPUT_DIR):
-    if not Path(output_dir).exists():
-        Path(output_dir).mkdir(parents=True, exist_ok=True)
-    try:
-        df.to_csv(Path(output_dir) / f"{df.Name}.csv", sep=",", encoding="utf-8")
-    except Exception as e:
-        print(e)
-
-
-def load_csv(file_path: str, sep: str = ",", encoding: str = "utf-8"):
-    return pd.read_csv(file_path, sep=sep, encoding=encoding)
 
 
 def time_format(ms: float) -> str:

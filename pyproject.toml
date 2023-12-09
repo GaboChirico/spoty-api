@@ -1,25 +1,26 @@
 [project]
 name = "spoty"
-dynamic = [
-  'version'
-]
+version = "0.2.0"
 description = ""
-authors = [
-    {name = "Gabriel Chirico", email = "Gacn40@gmail.com"},
-]
+authors = [{ name = "Gabriel Chirico", email = "Gacn40@gmail.com" }]
 readme = "README.md"
 requires-python = ">=3.10"
-license = {text = "MIT"}
-dependencies = [
-    "spotipy==2.20.0",
-    "pandas==1.5.0",
-]
+license = { text = "MIT" }
+dependencies = ["spotipy==2.20.0"]
+
 
 [project.urls]
 repository = 'https://github.com/GaboChirico/spoty-api'
 
+[project.scripts]
+spoty = "spoty.api.entrypoint:call_main"
+
+
 [tool.setuptools]
 include-package-data = true
+package-dir = { "" = "src" }
+packages = ["spoty"]
+
 
 [tool.pdm.dev-dependencies]
 formatting = ["black==21.9b0", "isort==5.9.3"]
