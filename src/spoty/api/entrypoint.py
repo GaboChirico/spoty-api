@@ -11,22 +11,18 @@ def _parse_args():
     parser.add_argument(
         "-f", "--features", type=bool, help="Get features", default=False
     )
-    parser.add_argument(
-        "-tf", "--time_format", type=bool, help="Format time", default=False
-    )
     return parser.parse_args()
 
 
-def call_main():
-    args = _parse_args()
+def call_main(args):
     return run(
         query=args.query,
         type=args.type,
         limit=args.limit,
         features=args.features,
-        time_format=args.time_format,
     )
 
 
 if __name__ == "__main__":
-    print(call_main())
+    args = _parse_args()
+    call_main(args)

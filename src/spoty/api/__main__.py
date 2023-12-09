@@ -12,14 +12,11 @@ def run(
     type: str,
     limit: int = 50,
     features: bool = False,
-    time_format: bool = False,
 ):
     LOGGER.info("Starting Spoty")
     setup()
     LOGGER.debug("Creating Spoty object")
-    spoty = Spoty(
-        query=query, type=type, limit=limit, features=features, time_format=time_format
-    )
+    spoty = Spoty(query=query, type=type, limit=limit, features=features)
     LOGGER.info("Processing search...")
     result = spoty()
     LOGGER.info("Search complete")

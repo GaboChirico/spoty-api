@@ -42,7 +42,7 @@ class Track:
         if features:
             for k, v in features.__dict__.items():
                 setattr(self, k, v)
-                
+
     def serialize(self):
         if self.features:
             return {

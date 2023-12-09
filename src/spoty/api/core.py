@@ -14,7 +14,6 @@ class Spoty:
         type: str,
         limit: int = 50,
         features: bool = False,
-        time_format: bool = False,
     ):
         self.client = spotipy.Spotify(auth_manager=spotify_credentials())
         self.query = Query(
@@ -22,7 +21,6 @@ class Spoty:
             type=type,
             limit=limit,
             features=features,
-            time_format=time_format,
         )
 
     @track_time

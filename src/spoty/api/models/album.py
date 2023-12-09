@@ -34,7 +34,7 @@ class Album:
     def serialize(self):
         return {
             "id": self.id,
-            "tracks": [x.serialize() for x in self.tracks],
+            "tracks": [x.serialize() for x in self],
             "meta": self.meta.__dict__,
         }
 
@@ -50,3 +50,9 @@ class Album:
     [Total Markets] {self.meta.total_markets}
     [Image] {self.meta.image_uri}]
 """
+
+    def __iter__(self):
+        return iter(self.tracks)
+
+    def __repr__(self) -> str:
+        return f"{self.__class__.__name__}"

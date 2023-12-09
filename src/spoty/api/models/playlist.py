@@ -25,17 +25,20 @@ class PlaylistMeta:
         self.description = meta_data["description"]
         self.image_uri = meta_data["images"][0]["url"]
 
+    def __repr__(self) -> str:
+        return f"{self.__class__.__name__}"
+
 
 class Playlist:
     def __init__(self, id: str, tracks: List[Track], playlist_data):
         self.id = id
         self.tracks = tracks
         self.meta = PlaylistMeta(playlist_data)
-        
+
     def serialize(self):
         return {
             "id": self.id,
-            "tracks": [x.serialize() for x in self.tracks],
+            "tracks": [x.serialize() for x in self],
             "meta": self.meta.__dict__,
         }
 
@@ -50,4 +53,10 @@ class Playlist:
     [Collaborative] {self.meta.collaborative}
     [Description] {self.meta.description}
     [Image] {self.meta.image_uri}
-"""
+    """
+
+    def __iter__(self):
+        return iter(self.tracks)
+
+    def __repr__(self) -> str:
+        return f"{self.__class__.__name__}"

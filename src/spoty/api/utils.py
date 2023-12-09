@@ -8,12 +8,11 @@ import pandas as pd
 from spotipy.cache_handler import CacheFileHandler
 from spotipy.oauth2 import SpotifyClientCredentials
 
-from spoty.api.log import setup_logger
+from spoty.api.log import get_logger
 
-setup_logger("spotipy")
-LOGGER = logging.getLogger("spotipy")
+LOGGER = get_logger(__name__)
 
-BASE_DIR = Path(__file__).resolve().parent.parent.parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent
 OUTPUT_DIR = BASE_DIR / "data"
 if not Path(OUTPUT_DIR).exists():
     Path(OUTPUT_DIR).mkdir(parents=True, exist_ok=True)
