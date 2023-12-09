@@ -42,6 +42,9 @@ class Playlist:
             "meta": self.meta.__dict__,
         }
 
+    def __iter__(self):
+        return iter(self.tracks)
+
     def __str__(self) -> str:
         return f"""
     [Playlist] {self.meta.name}
@@ -55,8 +58,5 @@ class Playlist:
     [Image] {self.meta.image_uri}
     """
 
-    def __iter__(self):
-        return iter(self.tracks)
-
     def __repr__(self) -> str:
-        return f"{self.__class__.__name__}"
+        return f"Plyalist(id={self.id}, tracks={self.tracks}, playlist_data={self.playlist_data})"

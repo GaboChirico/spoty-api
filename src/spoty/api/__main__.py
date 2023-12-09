@@ -1,23 +1,25 @@
+import logging
+
 from spoty.api.core import Spoty
-from spoty.api.utils import LOGGER, check_env
+from spoty.api.utils import check_env
+from spoty.api.log import setup_logger
 
 
 def setup():
     check_env()
-    LOGGER.debug("Setup complete")
+    setup_logger(__name__)
+    logging.debug("Setup complete")
 
 
-def run(
+def search(
     query: str,
     type: str,
     limit: int = 50,
     features: bool = False,
 ):
-    LOGGER.info("Starting Spoty")
+    logging.info("Starting spoty...")
     setup()
-    LOGGER.debug("Creating Spoty object")
     spoty = Spoty(query=query, type=type, limit=limit, features=features)
-    LOGGER.info("Processing search...")
-    result = spoty()
-    LOGGER.info("Search complete")
-    return result.serialize()
+    logging.info("Processing search...")
+    result = spoty.run()
+    return result

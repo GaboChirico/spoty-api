@@ -1,4 +1,3 @@
-from collections.abc import Iterable
 from typing import List
 
 from spoty.api.models.track import Track
@@ -37,6 +36,9 @@ class Album:
             "tracks": [x.serialize() for x in self],
             "meta": self.meta.__dict__,
         }
+        
+    def __iter__(self):
+        return iter(self.tracks)
 
     def __str__(self) -> str:
         return f"""
@@ -51,8 +53,5 @@ class Album:
     [Image] {self.meta.image_uri}]
 """
 
-    def __iter__(self):
-        return iter(self.tracks)
-
     def __repr__(self) -> str:
-        return f"{self.__class__.__name__}"
+        return f"Ablum(id={self.id}, tracks={self.tracks}, meta={self.meta})"

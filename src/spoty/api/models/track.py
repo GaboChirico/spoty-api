@@ -1,4 +1,5 @@
-from spoty.api.utils import pitch_class_notation, time_format
+from spoty.api.constants import PCN
+from spoty.api.utils import time_format
 
 
 class TrackMeta:
@@ -10,6 +11,19 @@ class TrackMeta:
         self.duration_ms = time_format(meta_data["duration_ms"])
         self.popularity = meta_data["popularity"]
 
+    def __repr__(self) -> str:
+        return f"{self.__class__.__name__}"
+
+    def __str__(self) -> str:
+        return f"""
+    [Track] {self.name}
+    [Album] {self.album}
+    [Artists] {self.artists}
+    [Release Date] {self.release_date}
+    [Duration] {self.duration_ms}
+    [Popularity] {self.popularity}
+    """
+
 
 class AudioFeatures:
     def __init__(self, feature_data):
@@ -20,7 +34,7 @@ class AudioFeatures:
         self.liveness = feature_data[0]["liveness"]
         self.loudness = feature_data[0]["loudness"]
         self.speechiness = feature_data[0]["speechiness"]
-        self.key = (lambda x: pitch_class_notation[str(x)])(feature_data[0]["key"])
+        self.key = (lambda x: PCN[str(x)])(feature_data[0]["key"])
         self.mode = (lambda x: "major" if x == "1" else "minor")(
             feature_data[0]["mode"]
         )
@@ -60,3 +74,6 @@ class Track:
     [Track] {self.name}
     [Artists] {self.artists}
     """
+
+    def __repr__(self) -> str:
+        return f"Track(id={self.id}, meta={self.meta}, features={self.features})"

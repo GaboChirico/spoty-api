@@ -1,10 +1,13 @@
+"""
+Spoty API core Class
+"""
 import spotipy
 
-from spoty.api.models.album import Album
-from spoty.api.models.playlist import Playlist
-from spoty.api.models.query import Query
-from spoty.api.models.track import AudioFeatures, Track, TrackMeta
-from spoty.api.utils import LOGGER, spotify_credentials, track_time
+from spoty.api.models import Album, AudioFeatures, Playlist, Query, Track, TrackMeta
+from spoty.api.utils import spotify_credentials, track_time
+from spoty.api.log import setup_logger
+
+logger = setup_logger(__name__)
 
 
 class Spoty:
@@ -24,24 +27,28 @@ class Spoty:
         )
 
     @track_time
-    def __call__(self):
+    def run(self):
         self._valid_query()
+        q = self.query.query
         match self.query.type:
             case "track":
-                return self.get_track(self.query.query)
+                logger.info("Getting track %s." % q)
+                return self.get_track(q)
             case "album":
-                return self.get_album(self.query.query)
+                logger.info("Getting album %s." % q)
+                return self.get_album(q)
             case "playlist":
-                return self.get_playlist(self.query.query)
+                logger.info("Getting playlist %s." % q)
+                return self.get_playlist(q)
             case _:
                 raise ValueError("Invalid type")
 
     def _valid_query(self):
         try:
             self.client.search(q=self.query.query, type=self.query.type, limit=1)
-            LOGGER.info(f"Query: {self.query.query} is valid")
+            logger.info(f"Query: {self.query.query} is valid.")
         except Exception as e:
-            LOGGER.error(e)
+            logger.error(e)
 
     def get_album(self, album_id: str) -> Album:
         """

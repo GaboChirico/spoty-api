@@ -1,64 +1,53 @@
+"""
+Utils module for the API
+"""
 import os
 import time
 
 from spotipy.cache_handler import CacheFileHandler, MemoryCacheHandler
 from spotipy.oauth2 import SpotifyClientCredentials
+from spoty.api.log import setup_logger
 
-from spoty.api.log import get_logger
-
-LOGGER = get_logger(__name__)
-
-
-META = ["name", "artists", "album", "duration_ms", "release_date", "popularity"]
-FEATURES = [
-    "danceability",
-    "acousticness",
-    "energy",
-    "instrumentalness",
-    "liveness",
-    "loudness",
-    "speechiness",
-    "key",
-    "mode",
-    "valence",
-    "tempo",
-    "time_signature",
-]
-
-pitch_class_notation = {
-    "0": "C",
-    "1": "C#",
-    "2": "D",
-    "3": "D#",
-    "4": "E",
-    "5": "F",
-    "6": "F#",
-    "7": "G",
-    "8": "G#",
-    "9": "A",
-    "10": "A#",
-    "11": "B",
-}
+logger = setup_logger(__name__)
 
 
 def cache_handler():
-    return CacheFileHandler(cache_path=".cache") if os.path.exists(".cache") else MemoryCacheHandler()
+    """
+    Check if cache file exists, if not use memory cache.
+    """
+    return (
+        CacheFileHandler(cache_path=".cache")
+        if os.path.exists(".cache")
+        else MemoryCacheHandler()
+    )
 
 
 def get_auth_token():
+    """
+    Get cached token.
+    """
     return cache_handler.get_cached_token()
 
 
 def check_env():
+    """
+    Check if SPOTIPY_CLIENT_ID and SPOTIPY_CLIENT_SECRET are set.
+    """
     if not os.environ.get("SPOTIPY_CLIENT_ID") and os.environ.get(
         "SPOTIPY_CLIENT_SECRET"
     ):
-        LOGGER.error(
+        logger.error(
             "Missing Credentials: Please set SPOTIPY_CLIENT_ID or SPOTIPY_CLIENT_SECRET"
         )
 
 
 def spotify_credentials():
+    """
+    Get Spotify credentials.
+
+    Returns:
+        SpotifyClientCredentials: Spotify credentials.
+    """
     return SpotifyClientCredentials(
         client_id=os.environ.get("SPOTIPY_CLIENT_ID"),
         client_secret=os.environ.get("SPOTIPY_CLIENT_SECRET"),
@@ -87,11 +76,15 @@ def time_format(ms: float) -> str:
 
 
 def track_time(func):
+    """
+    Decorator to track time elapsed in a function.
+    """
+
     def wrapper(*args, **kwargs):
         t1 = time.time()
         res = func(*args, **kwargs)
         t2 = time.time()
-        print(f"Time elapsed: {t2-t1} seconds")
+        logger.info(f"Time elapsed: {t2-t1} seconds")
         return res
 
     return wrapper
